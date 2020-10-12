@@ -1,10 +1,9 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-sm-10">
+      <div class="col-sm-12">
         <h1>HDB</h1>
         <hr />
-        <br /><br />
 		<alert :message=message v-if="showMessage"></alert>
         <button
           type="button"
@@ -15,7 +14,7 @@
         </button>
 
         <br /><br />
-        <table class="table table-hover">
+        <table class="table table-striped table-dark">
           <thead>
             <tr>
               <th scope="col">Town</th>
@@ -28,7 +27,6 @@
               <th scope="col">Lease commence date</th>
               <th scope="col">Remaining Lease</th>
               <th scope="col">Resale price</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -47,11 +45,23 @@
           </tbody>
         </table>
       </div>
+      <!--
+      <div class="col-sm-6">
+        <mappy></mappy>
+      </div>
+
+      <div class="col-sm-6">
+        <rawdata></rawdata>
+      </div>
+      -->
+
     </div>
     <b-modal
       ref="priceHDBModal"
       id="HDB-modal"
       title="Price an HDB"
+      header-bg-variant="dark"
+      body-bg-variant="secondary"
       hide-footer
     >
       <b-form @submit="onSubmit" @reset="onReset" class="w-100">
@@ -192,11 +202,14 @@
         <b-button type="reset" variant="danger">Reset</b-button>
       </b-form>
     </b-modal>
+    
   </div>
 </template>
 <script>
 import axios from "axios";
 import Alert from './Alert.vue';
+import Mappy from './Mappy.vue';
+import RawData from './RawData.vue';
 
 export default {
   data() {
@@ -214,11 +227,20 @@ export default {
         remaining_lease: "",
 	  },
 	  message: '',
-	  showMessage: false,
+    showMessage: false,
+    variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
+    headerBgVariant: 'dark',
+    headerTextVariant: 'light',
+    bodyBgVariant: 'light',
+    bodyTextVariant: 'dark',
+    footerBgVariant: 'warning',
+    footerTextVariant: 'dark',
     };
   },
   components: {
     alert: Alert,
+    mappy: Mappy,
+    rawdata: RawData,
   },
   methods: {
     getHDBs() {

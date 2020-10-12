@@ -14,7 +14,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color:azure;
+  background-color:rgb(51, 104, 105);
 }
 
 #nav {
@@ -24,10 +25,18 @@
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color:azure;
 }
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.map-container-2 iframe{
+left:0;
+top:0;
+height:100%;
+width:100%;
+position:absolute;
 }
 </style>
