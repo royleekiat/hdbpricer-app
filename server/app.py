@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import random
+from predict import predictPrice
 
 
 # configuration
@@ -17,16 +18,14 @@ HDBs = [
     {
         'town': 'ANG MO KIO',
         'flat_type': '2 ROOM',
-        'block': '406',
-        'street_name': 'ANG MO KIO AVE 10',
         'storey_range': '10 TO 12',
         'floor_area_sqm': 44.0,
-        'flat_model': 'Improved',
         'lease_commence_date': 1979,
-        'remaining_lease': 61,
         'resale_price': 232000.0,
 
     },
+
+    #town, flat_type,storey_range,floor_area_sqm,lease_commence_date
 ]
 
 # sanity check route
@@ -42,14 +41,10 @@ def all_hdbs():
         HDBs.append({
             'town': post_data.get('town'),
             'flat_type': post_data.get('flat_type'),
-            'block': post_data.get('block'),
-            'street_name': post_data.get('street_name'),
             'storey_range': post_data.get('storey_range'),
             'floor_area_sqm': post_data.get('floor_area_sqm'),
-            'flat_model': post_data.get('flat_model'),
             'lease_commence_date': post_data.get('lease_commence_date'),
-            'remaining_lease': post_data.get('remaining_lease'),
-            'resale_price': random.randint(300000,950000), # To return from model
+            'resale_price': round(predictPrice( town = post_data.get('town'),flat_type=post_data.get('flat_type'),storey_range=post_data.get('storey_range'),floor_area_sqm=post_data.get('floor_area_sqm'),lease_commence_date=post_data.get('lease_commence_date'))*1.01), # To return from model
         })
         response_object['message'] = 'Priced!'
     else:

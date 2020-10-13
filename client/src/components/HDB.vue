@@ -19,13 +19,9 @@
             <tr>
               <th scope="col">Town</th>
               <th scope="col">Flat type</th>
-              <th scope="col">Block</th>
-              <th scope="col">Street name</th>
               <th scope="col">Storey range</th>
               <th scope="col">Floor area (sqm)</th>
-              <th scope="col">Flat Model</th>
               <th scope="col">Lease commence date</th>
-              <th scope="col">Remaining Lease</th>
               <th scope="col">Resale price</th>
             </tr>
           </thead>
@@ -33,14 +29,10 @@
             <tr v-for="(hdb, index) in hdbs" :key="index">
               <td>{{ hdb.town }}</td>
               <td>{{ hdb.flat_type }}</td>
-              <td>{{ hdb.block }}</td>
-              <td>{{ hdb.street_name }}</td>
               <td>{{ hdb.storey_range }}</td>
               <td>{{ hdb.floor_area_sqm }}</td>
-              <td>{{ hdb.flat_model }}</td>
               <td>{{ hdb.lease_commence_date }}</td>
-              <td>{{ hdb.remaining_lease }}</td>
-              <td>{{ hdb.resale_price }}</td>
+              <td>S$ {{ hdb.resale_price }}</td>
             </tr>
           </tbody>
         </table>
@@ -70,70 +62,21 @@
           label="Town:"
           label-for="form-town-input"
         >
-          <b-form-input
-            id="form-town-input"
-            type="text"
-            v-model="priceHDBForm.town"
-            required
-            placeholder="Enter town"
-          >
-          </b-form-input>
+          <b-form-select v-model="priceHDBForm.town" :options="townoptions" required></b-form-select>
         </b-form-group>
         <b-form-group
           id="form-flat_type-group"
           label="Flat type:"
           label-for="form-flat_type-input"
         >
-          <b-form-input
-            id="form-flat_type-input"
-            type="text"
-            v-model="priceHDBForm.flat_type"
-            required
-            placeholder="Enter Flat type"
-          >
-          </b-form-input>
-        </b-form-group>
-        <b-form-group
-          id="form-block-group"
-          label="Block:"
-          label-for="form-block-input"
-        >
-          <b-form-input
-            id="form-block-input"
-            type="text"
-            v-model="priceHDBForm.block"
-            required
-            placeholder="Enter block"
-          >
-          </b-form-input>
-        </b-form-group>
-        <b-form-group
-          id="form-street_name-group"
-          label="Street name :"
-          label-for="form-street_name-input"
-        >
-          <b-form-input
-            id="form-street_name-input"
-            type="text"
-            v-model="priceHDBForm.street_name"
-            required
-            placeholder="Enter Street name"
-          >
-          </b-form-input>
+          <b-form-select v-model="priceHDBForm.flat_type" :options="flat_typeoptions" required></b-form-select>
         </b-form-group>
         <b-form-group
           id="form-storey_range-group"
           label="Storey range:"
           label-for="form-storey_range-input"
         >
-          <b-form-input
-            id="form-storey_range-input"
-            type="text"
-            v-model="priceHDBForm.storey_range"
-            required
-            placeholder="Enter Storey range"
-          >
-          </b-form-input>
+          <b-form-select v-model="priceHDBForm.storey_range" :options="storey_rangeoptions" required></b-form-select>
         </b-form-group>
         <b-form-group
           id="form-floor_area_sqm-group"
@@ -142,27 +85,17 @@
         >
           <b-form-input
             id="form-floor_area_sqm-input"
-            type="text"
+            type="range"
             v-model="priceHDBForm.floor_area_sqm"
+            min="30" 
+            max="300"
             required
             placeholder="Enter Floor area (sqm)"
           >
           </b-form-input>
+          <div class="mt-2">Value: {{ priceHDBForm.floor_area_sqm }}</div>
         </b-form-group>
-        <b-form-group
-          id="form-flat_model-group"
-          label="Flat model:"
-          label-for="form-flat_model-input"
-        >
-          <b-form-input
-            id="form-flat_model-input"
-            type="text"
-            v-model="priceHDBForm.flat_model"
-            required
-            placeholder="Enter Flat model"
-          >
-          </b-form-input>
-        </b-form-group>
+        
         <b-form-group
           id="form-lease_commence_date-group"
           label="Lease commence date (Year):"
@@ -170,28 +103,15 @@
         >
           <b-form-input
             id="form-lease_commence_date-input"
-            type="text"
+            type="number"
             v-model="priceHDBForm.lease_commence_date"
+            min="1965" 
+            :max="currentYear"
             required
             placeholder="Enter Lease commence date (Year)"
           >
           </b-form-input>
         </b-form-group>
-        <b-form-group
-          id="form-remaining_lease-group"
-          label="Remaining lease:"
-          label-for="form-remaining_lease-input"
-        >
-          <b-form-input
-            id="form-remaining_lease-input"
-            type="text"
-            v-model="priceHDBForm.remaining_lease"
-            required
-            placeholder="Enter Remaining lease"
-          >
-          </b-form-input>
-        </b-form-group>
-
         <!-- <b-form-group id="form-read-group">
 		      <b-form-checkbox-group v-model="addBookForm.read" id="form-checks">
 		        <b-form-checkbox value="true">Read?</b-form-checkbox>
@@ -216,25 +136,37 @@ export default {
     return {
       hdbs: [],
       priceHDBForm: {
-        town: "",
-        flat_type: "",
-        block: "",
-        street_name: "",
-        storey_range: "",
-        floor_area_sqm: "",
-        flat_model: "",
+        town: null,
+        flat_type: null,
+        storey_range: null,
+        floor_area_sqm: 120,
         lease_commence_date: "",
-        remaining_lease: "",
-	  },
-	  message: '',
-    showMessage: false,
-    variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
-    headerBgVariant: 'dark',
-    headerTextVariant: 'light',
-    bodyBgVariant: 'light',
-    bodyTextVariant: 'dark',
-    footerBgVariant: 'warning',
-    footerTextVariant: 'dark',
+      },
+      message: '',
+      showMessage: false,
+      variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
+      headerBgVariant: 'dark',
+      headerTextVariant: 'light',
+      bodyBgVariant: 'light',
+      bodyTextVariant: 'dark',
+      footerBgVariant: 'warning',
+      footerTextVariant: 'dark',
+      currentYear: new Date().getFullYear(),
+      townoptions: [
+            { value: null, text: 'Please select a town' },
+            { value: 'ANG MO KIO',  text: 'ANG MO KIO'},{ value: 'BEDOK',  text: 'BEDOK'},{ value: 'BISHAN',  text: 'BISHAN'},{ value: 'BUKIT BATOK',  text: 'BUKIT BATOK'},{ value: 'BUKIT MERAH',  text: 'BUKIT MERAH'},{ value: 'BUKIT PANJANG',  text: 'BUKIT PANJANG'},{ value: 'BUKIT TIMAH',  text: 'BUKIT TIMAH'},{ value: 'CENTRAL AREA',  text: 'CENTRAL AREA'},{ value: 'CHOA CHU KANG',  text: 'CHOA CHU KANG'},{ value: 'CLEMENTI',  text: 'CLEMENTI'},{ value: 'GEYLANG',  text: 'GEYLANG'},{ value: 'HOUGANG',  text: 'HOUGANG'},{ value: 'JURONG EAST',  text: 'JURONG EAST'},{ value: 'JURONG WEST',  text: 'JURONG WEST'},{ value: 'KALLANG/WHAMPOA',  text: 'KALLANG/WHAMPOA'},{ value: 'MARINE PARADE',  text: 'MARINE PARADE'},{ value: 'PASIR RIS',  text: 'PASIR RIS'},{ value: 'PUNGGOL',  text: 'PUNGGOL'},{ value: 'QUEENSTOWN',  text: 'QUEENSTOWN'},{ value: 'SEMBAWANG',  text: 'SEMBAWANG'},{ value: 'SENGKANG',  text: 'SENGKANG'},{ value: 'SERANGOON',  text: 'SERANGOON'},{ value: 'TAMPINES',  text: 'TAMPINES'},{ value: 'TOA PAYOH',  text: 'TOA PAYOH'},{ value: 'WOODLANDS',  text: 'WOODLANDS'},{ value: 'YISHUN',  text: 'YISHUN'},
+      ],
+
+      flat_typeoptions: [
+            { value: null, text: 'Please select a Flat type' },
+            { value: '1 ROOM',  text: '1 ROOM'},{ value: '2 ROOM',  text: '2 ROOM'},{ value: '3 ROOM',  text: '3 ROOM'},{ value: '4 ROOM',  text: '4 ROOM'},{ value: '5 ROOM',  text: '5 ROOM'},{ value: 'EXECUTIVE',  text: 'EXECUTIVE'},{ value: 'MULTI-GENERATION',  text: 'MULTI-GENERATION'},
+      ],
+
+      storey_rangeoptions: [
+            { value: null, text: 'Please select a Storey range' },
+            { value: '01 TO 03',  text: '01 TO 03'},{ value: '04 TO 06',  text: '04 TO 06'},{ value: '07 TO 09',  text: '07 TO 09'},{ value: '10 TO 12',  text: '10 TO 12'},{ value: '13 TO 15',  text: '13 TO 15'},{ value: '16 TO 18',  text: '16 TO 18'},{ value: '19 TO 21',  text: '19 TO 21'},{ value: '22 TO 24',  text: '22 TO 24'},{ value: '25 TO 27',  text: '25 TO 27'},{ value: '28 TO 30',  text: '28 TO 30'},{ value: '31 TO 33',  text: '31 TO 33'},{ value: '34 TO 36',  text: '34 TO 36'},{ value: '37 TO 39',  text: '37 TO 39'},{ value: '40 TO 42',  text: '40 TO 42'},{ value: '43 TO 45',  text: '43 TO 45'},{ value: '46 TO 48',  text: '46 TO 48'},{ value: '49 TO 51',  text: '49 TO 51'},
+      ],
+
     };
   },
   components: {
@@ -272,15 +204,11 @@ export default {
         });
     },
     initForm() {
-      this.priceHDBForm.town = "";
-      this.priceHDBForm.flat_type = "";
-      this.priceHDBForm.block = "";
-      this.priceHDBForm.street_name = "";
-      this.priceHDBForm.storey_range = "";
-      this.priceHDBForm.floor_area_sqm = "";
-      this.priceHDBForm.flat_model = "";
+      this.priceHDBForm.town = null;
+      this.priceHDBForm.flat_type = null;
+      this.priceHDBForm.storey_range = null;
+      this.priceHDBForm.floor_area_sqm = 100;
       this.priceHDBForm.lease_commence_date = "";
-      this.priceHDBForm.remaining_lease = "";
     },
     onSubmit(evt) {
       evt.preventDefault();
@@ -288,13 +216,9 @@ export default {
       const payload = {
         town: this.priceHDBForm.town,
         flat_type: this.priceHDBForm.flat_type,
-        block: this.priceHDBForm.block,
-        street_name: this.priceHDBForm.street_name ,
         storey_range: this.priceHDBForm.storey_range ,
         floor_area_sqm: this.priceHDBForm.floor_area_sqm ,
-        flat_model: this.priceHDBForm.flat_model ,
         lease_commence_date: this.priceHDBForm.lease_commence_date ,
-        remaining_lease: this.priceHDBForm.remaining_lease ,
       };
       this.priceHDB(payload);
       this.initForm();
