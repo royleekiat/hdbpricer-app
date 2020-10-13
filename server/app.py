@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import random
 from predict import predictPrice
+from train import train
 
 
 # configuration
@@ -49,6 +50,12 @@ def all_hdbs():
         response_object['message'] = 'Priced!'
     else:
         response_object['hdbs'] = HDBs
+    return jsonify(response_object)
+
+@app.route('/train', methods=['GET'])
+def train_model():
+    response_object = {'status': 'success'}
+    response_object['score'] = train()
     return jsonify(response_object)
 
 
