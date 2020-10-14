@@ -8,7 +8,7 @@
     <br />
     <br />
     This application is built with a VueJS frontend and a Flask backend.
-    Prediction is done using a trained Keras Deep learning model which is retrained on a quarterly basis.
+    Prediction is done using a trained K nearest neighbours model which is retrained on a quarterly basis.
     <br />
     <br />
   </div>
