@@ -1,13 +1,12 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
 import Ping from '../components/Ping.vue';
 import HDB from '../components/HDB.vue';
-/*eslint linebreak-style: ["error", "windows"]*/
+
 Vue.use(VueRouter);
 
 const routes = [
-/*  
+/*
   {
     path: '/',
     name: 'Home',
@@ -23,15 +22,15 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
   {
-      path: '/ping',
-      name: 'Ping',
-      component: Ping,
+    path: '/ping',
+    name: 'Ping',
+    component: Ping,
   },
   {
-      path: '/',
-      name: 'HDB',
-      component: HDB,
-  }
+    path: '/',
+    name: 'HDB',
+    component: HDB,
+  },
 ];
 
 const router = new VueRouter({

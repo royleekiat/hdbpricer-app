@@ -1,4 +1,5 @@
 <template>
+<!-- eslint-disable max-len -->
   <div class="container">
     <button type="button" class="btn btn-primary">{{ msg }}</button>
   </div>
@@ -17,6 +18,7 @@ export default {
   methods: {
     getMessage() {
       const path = 'http://localhost:5000/ping';
+      //const path = 'https://hdbpricer-fe.herokuapp.com/ping';
       axios.get(path)
         .then((res) => {
           this.msg = res.data;

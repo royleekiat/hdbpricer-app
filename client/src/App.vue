@@ -1,4 +1,7 @@
 <template>
+<!-- eslint-disable max-len -->
+<!-- eslint-disable no-mixed-spaces-and-tabs -->
+<!-- eslint-disable no-tabs -->
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |

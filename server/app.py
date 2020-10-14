@@ -3,7 +3,7 @@ from flask_cors import CORS
 import random
 from predict import predictPrice
 from train import train
-
+import os
 
 # configuration
 DEBUG = True
@@ -61,4 +61,10 @@ def train_model():
 
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.getenv('PORT', 5000))
+
+    print("Starting app on port %d" % port)
+    if(port!=5000):
+        app.run(debug=False, port=port, host='0.0.0.0')
+    else:
+        app.run()
