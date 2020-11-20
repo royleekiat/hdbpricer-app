@@ -17,3 +17,8 @@ Run Client
 ```
 $ npm run serve  
 ```
+3. Docker (server)
+```
+docker build --tag hdbpricer-backend .
+docker run --name hdbpricer-backend -p 5000:5000 hdbpricer-backend 
+```
